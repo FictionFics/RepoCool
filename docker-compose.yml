@@ -1,0 +1,103 @@
+version: "3.5"
+
+#Declare Network separation for all the services inside the docker composes, this will create a subnet inside the containers. We will be able to assign permanent ips to these services.
+networks:
+  wg-network:
+    ipam:
+      config:
+      - subnet: 192.168.123.0/24
+
+#The first service is wireguard, It is a vpn app, The key point of this is block from external access all these services if you don't have the vpn configured on your device.
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Spain
+      - SERVERURL=wiresafe.kitwangariver.cloudns.nz #optional
+      - SERVERPORT=51820 #optional
+    volumes:
+      - /home/git/CentralisedWireguard/config:/config
+      - /lib/modules:/lib/modules
+    networks:
+      wg-network:
+        ipv4_address: 192.168.123.123
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+
+#Sencond app is nginx manager to confire as a load balancer or reverse proxy, we configured the database in other container.
+
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-app
+    mem_limit: 3g
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "fiction"
+      DB_MYSQL_PASSWORD: "F_IftBoZTZ-2QVPf"
+      DB_MYSQL_NAME: "ficdb"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+
+    networks:
+      wg-network:
+        ipv4_address: 192.168.123.2
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    container_name: nginx-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 'F_IftBoZTZ-2QVPf'
+      MYSQL_DATABASE: 'ficdb'
+      MYSQL_USER: 'fiction'
+      MYSQL_PASSWORD: 'F_IftBoZTZ-2QVPf'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      wg-network:
+        ipv4_address: 192.168.123.3
+
+#Third Services is Vaultwarden, this service install automatically SQL Lite, this database is not escalable for production, we changed for postgress in a separate container as well.
+  vaultwarden:
+    image: 'vaultwarden/server:latest'
+    mem_limit: 4g
+    container_name: vaultwarden
+    volumes:
+      - '/home/var/liv/docker/volumes/vaultwarden-data/:/data/'
+    ports:
+      - '90:80'
+    restart: unless-stopped
+    depends_on:
+      - vault-db
+
+    networks:
+      wg-network:
+        ipv4_address: 192.168.123.5
+
+  vault-db:
+    image: 'postgres:13-alpine'
+    container_name: vaultwarden-db
+    environment:
+      POSTGRESS_ROOT_PASSWORD: 'F_IftBoZTZ-2QVPf'
+      POSTGRES_DB: 'ficdb'
+      POSTGRES_USER: 'fiction'
+      POSTGRES_PASSWORD: 'F_IftBoZTZ-2QVPf'
+    volumes:
+      - ./data/postgress-vault:/var/lib/postgresql/data
+
+    networks:
+      wg-network:
+        ipv4_address: 192.168.123.4
