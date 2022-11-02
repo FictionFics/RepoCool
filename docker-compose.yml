@@ -7,7 +7,7 @@ networks:
       config:
       - subnet: 192.168.123.0/24
 
-#The first service is wireguard, It is a vpn app, The key point of this is block from external access all these services if you don't have the vpn configured on your device.
+#The first service is wireguard, It is a vpn server, The key point of this is block from external access all these services if you don't have the vpn configured on your device.
 services:
   wireguard:
     image: linuxserver/wireguard
@@ -33,7 +33,7 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
 
-#Sencond app is nginx manager to confire as a load balancer or reverse proxy, we configured the database in other container.
+#Sencond app is nginx manager to configure as a load balancer or reverse proxy, I configured the database in other container.
 
   app:
     image: 'jc21/nginx-proxy-manager:latest'
@@ -70,7 +70,7 @@ services:
       wg-network:
         ipv4_address: 192.168.123.3
 
-#Third Services is Vaultwarden, this service install automatically SQL Lite, this database is not escalable for production, we changed for postgress in a separate container as well.
+#Third Services is Vaultwarden, this service install automatically SQL Lite, this database is not escalable for production, I changed for postgress in a separate container as well.
   vaultwarden:
     image: 'vaultwarden/server:latest'
     mem_limit: 4g
