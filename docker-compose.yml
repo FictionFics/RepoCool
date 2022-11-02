@@ -46,8 +46,8 @@ services:
     environment:
       DB_MYSQL_HOST: "db"
       DB_MYSQL_PORT: 3306
-      DB_MYSQL_USER: "fiction"
-      DB_MYSQL_PASSWORD: "F_IftBoZTZ-2QVPf"
+      DB_MYSQL_USER: "WriteHereYourUsername"
+      DB_MYSQL_PASSWORD: "WriteHereYourPassword"
       DB_MYSQL_NAME: "ficdb"
     volumes:
       - ./data:/data
@@ -60,10 +60,10 @@ services:
     image: 'jc21/mariadb-aria:latest'
     container_name: nginx-db
     environment:
-      MYSQL_ROOT_PASSWORD: 'F_IftBoZTZ-2QVPf'
+      MYSQL_ROOT_PASSWORD: 'WriteHereYourPassword'
       MYSQL_DATABASE: 'ficdb'
-      MYSQL_USER: 'fiction'
-      MYSQL_PASSWORD: 'F_IftBoZTZ-2QVPf'
+      MYSQL_USER: 'WriteHereYourUsername'
+      MYSQL_PASSWORD: 'WriteHereYourPassword'
     volumes:
       - ./data/mysql:/var/lib/mysql
     networks:
@@ -91,10 +91,10 @@ services:
     image: 'postgres:13-alpine'
     container_name: vaultwarden-db
     environment:
-      POSTGRESS_ROOT_PASSWORD: 'F_IftBoZTZ-2QVPf'
+      POSTGRESS_ROOT_PASSWORD: 'WriteHereYourPassword'
       POSTGRES_DB: 'ficdb'
-      POSTGRES_USER: 'fiction'
-      POSTGRES_PASSWORD: 'F_IftBoZTZ-2QVPf'
+      POSTGRES_USER: 'WriteHereYourUsername'
+      POSTGRES_PASSWORD: 'WriteHereYourPassword'
     volumes:
       - ./data/postgress-vault:/var/lib/postgresql/data
 
