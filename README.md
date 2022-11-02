@@ -25,4 +25,14 @@ Future Services that I want to add:
 - Mail server? I need to think about this... Maybe I can die If I try it.
 
 
-I will update this document when I change something. 
+_I will update this document when I change something._
+
+
+I am using my personal server with Ubuntu 20.04 LTS
+
+This docker-compose.yml file create all the containers and dependencies between them, of course you should have docker installed on your machine and docker compose too. 
+
+**IMPORTANT!**
+
+I was able to access to all the services installed but when you are connected to the vpn, navegate to others things that are not these services will be blocked. I need to review properly the IPtables in the VPN to allow other connections.
+
