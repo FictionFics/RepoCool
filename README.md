@@ -10,14 +10,14 @@ What is the idea of this Repository
 - This project will be CI/CD and could have modifications depend on my personal time.
 - All is in different containers interconnected, databases of the services are in a separate containers.
 
-Actual Services Inside the docker-compose.yml:
+**Actual Services Inside the docker-compose.yml:**
 
 - Bitwarden (Password manager) I used a Vaultwarden docker but I changed the database, the default image use SQL Lite, I changed for one that could escalate better (Postgress)
 - Wireguard (VPN Server)
 - Nging Proxy manager (Reverse Proxy or Load Balancer) 
 
 
-Future Services that I want to add:
+**Future Services that I want to add:**
 
 - Nextcloud (Your hosted cloud service)
 - Keycloak (User manager and SSO tool)
