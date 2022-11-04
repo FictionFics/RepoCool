@@ -70,6 +70,28 @@ services:
       wg-network:
         ipv4_address: 192.168.123.3
 
+#Configurando Pi-hole para no tener anuncios en la red de tu hogar
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:v5.7
+    expose:
+      - "53"
+      - "67"
+      - "80"
+      - "443"
+    environment:
+      TZ: 'España/Madrid'
+      WEBPASSWORD: 'peladonerd'
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    networks:
+      containers:
+        ipv4_address: 192.168.123.10
+
 #Third Services is Vaultwarden, this service install automatically SQL Lite, this database is not escalable for production, I changed for postgress in a separate container as well.
   vaultwarden:
     image: 'vaultwarden/server:latest'
