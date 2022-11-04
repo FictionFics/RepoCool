@@ -30,6 +30,8 @@ services:
         ipv4_address: 192.168.123.123
     ports:
       - 51820:51820/udp
+    dns:
+      - 192.168.123.10
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
