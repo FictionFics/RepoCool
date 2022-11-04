@@ -21,8 +21,9 @@ services:
       - TZ=Europe/Spain
       - SERVERURL=wiresafe.kitwangariver.cloudns.nz #optional
       - SERVERPORT=51820 #optional
+      - PEERS=4 #optional
     volumes:
-      - /home/git/CentralisedWireguard/config:/config
+      - ./wireguard/config:/config
       - /lib/modules:/lib/modules
     networks:
       wg-network:
@@ -65,7 +66,7 @@ services:
       MYSQL_USER: 'WriteHereYourUsername'
       MYSQL_PASSWORD: 'WriteHereYourPassword'
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./data/mysqlnginx:/var/lib/mysql
     networks:
       wg-network:
         ipv4_address: 192.168.123.3
@@ -80,7 +81,7 @@ services:
       - "80"
       - "443"
     environment:
-      TZ: 'España/Madrid'
+      TZ: 'Europe/Spain'
       WEBPASSWORD: 'peladonerd'
     volumes:
       - './etc-pihole/:/etc/pihole/'
