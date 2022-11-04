@@ -89,7 +89,7 @@ services:
       - NET_ADMIN
     restart: unless-stopped
     networks:
-      containers:
+      wg-network:
         ipv4_address: 192.168.123.10
 
 #Third Services is Vaultwarden, this service install automatically SQL Lite, this database is not escalable for production, I changed for postgress in a separate container as well.
