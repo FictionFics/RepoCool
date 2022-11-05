@@ -15,7 +15,7 @@ What is the idea of this Repository
 - Bitwarden (Password manager) I used a Vaultwarden docker but I changed the database, the default image use SQL Lite, I changed for one that could escalate better (Postgress)
 - Wireguard (VPN Server)
 - Nging Proxy manager (Reverse Proxy or Load Balancer)
-- Pi-hole (DNS PROXY) go here and add these list into your pi-hole to increse the block adds experience: https://firebog.net/
+- Pi-hole (DNS PROXY) go here and add these lists of URLs into your pi-hole to increse the block adds experience: https://firebog.net/
 
 
 **Future Services that I want to add:**
